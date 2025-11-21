@@ -1,32 +1,23 @@
-import { useRecipeStore } from "./recipeStore";
+import useRecipeStore from "./recipeStore";
 
-function RecipeList() {
-  const recipes = useRecipeStore((state) => state.recipes);
+const RecipeList = () => {
+  const recipes = useRecipeStore((state) => state.filteredRecipes);
+  const allRecipes = useRecipeStore((state) => state.recipes);
+  const searchTerm = useRecipeStore((state) => state.searchTerm);
+
+  const listToDisplay =
+    searchTerm.trim().length > 0 ? recipes : allRecipes;
 
   return (
-    <div style={{ marginTop: "20px" }}>
-      <h2>Recipes</h2>
-
-      {recipes.length === 0 ? (
-        <p>No recipes added yet.</p>
-      ) : (
-        recipes.map((recipe) => (
-          <div
-            key={recipe.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              margin: "10px 0",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{recipe.title}</h3>
-            <p>{recipe.description}</p>
-          </div>
-        ))
-      )}
+    <div>
+      {listToDisplay.map((recipe) => (
+        <div key={recipe.id} style={{ marginBottom: "20px" }}>
+          <h3>{recipe.title}</h3>
+          <p>{recipe.description}</p>
+        </div>
+      ))}
     </div>
   );
-}
+};
 
 export default RecipeList;

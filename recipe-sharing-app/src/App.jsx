@@ -1,15 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import SearchBar from "./components/SearchBar";
 import RecipeList from "./components/RecipeList";
-import RecipeDetails from "./components/RecipeDetails";
+import AddRecipeForm from "./components/AddRecipeForm";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<RecipeList />} />
-        <Route path="/recipe/:id" element={<RecipeDetails />} />
-      </Routes>
-    </BrowserRouter>
+    <div style={{ padding: "20px" }}>
+      <h1>Recipe Sharing App</h1>
+
+      <SearchBar />
+
+      <AddRecipeForm />
+      <RecipeList />
+    </div>
   );
 }
 

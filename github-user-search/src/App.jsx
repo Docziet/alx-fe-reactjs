@@ -1,5 +1,6 @@
 import { useState } from "react";
 import SearchBar from "./components/SearchBar";
+import Search from "./components/Search";
 import UserList from "./components/UserList";
 import { searchUsers } from "./services/githubService";
 
@@ -21,6 +22,7 @@ function App() {
     <div style={{ padding: "20px" }}>
       <h1>GitHub User Search</h1>
       <SearchBar onSearch={handleSearch} />
+      <Search />
       {loading && <p>Loading...</p>}
       {error && <p style={{ color: "red" }}>{error}</p>}
       <UserList users={users} />

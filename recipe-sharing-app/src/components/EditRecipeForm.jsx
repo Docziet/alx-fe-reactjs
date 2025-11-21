@@ -10,8 +10,8 @@ const EditRecipeForm = ({ recipe }) => {
     ingredients: recipe.ingredients.join(", "),
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
 
     updateRecipe(recipe.id, {
       title: form.title,

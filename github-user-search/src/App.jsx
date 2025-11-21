@@ -3,6 +3,7 @@ import SearchBar from "./components/SearchBar";
 import Search from "./components/Search";
 import UserList from "./components/UserList";
 import { searchUsers } from "./services/githubService";
+import './index.css'
 
 function App() {
   const [users, setUsers] = useState([]);

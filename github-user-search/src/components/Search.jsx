@@ -4,11 +4,13 @@ const Search = ({ onSearch }) => {
   const [username, setUsername] = useState("");
   const [user, setUser] = useState(null);
   const [notFound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(false); // New loading state
 
   const handleSearch = async (e) => {
     e.preventDefault();
-
+    setLoading(true);   // Start loading
     const data = await onSearch(username);
+    setLoading(false);  // Stop loading
 
     if (!data) {
       setNotFound(true);
@@ -31,9 +33,9 @@ const Search = ({ onSearch }) => {
         <button type="submit">Search</button>
       </form>
 
-      {notFound && (
-        <p>Looks like we cant find the user</p>
-      )}
+      {loading && <p>Loading...</p>} {/* Loading indicator */}
+
+      {notFound && <p>Looks like we cant find the user</p>}
 
       {user && (
         <div className="user-card">

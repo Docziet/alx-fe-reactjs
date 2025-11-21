@@ -8,13 +8,25 @@ function Navbar() {
         backgroundColor: "#333",
         color: "white",
         display: "flex",
-        gap: "20px"
+        gap: "20px",
+        justifyContent: "space-around"   // ✅ Added as required
       }}
     >
-      <Link to="/" style={{ color: "white" }}>Home</Link>
-      <Link to="/about" style={{ color: "white" }}>About</Link>
-      <Link to="/services" style={{ color: "white" }}>Services</Link>
-      <Link to="/contact" style={{ color: "white" }}>Contact</Link>
+      <Link to="/" style={{ color: "white", textDecoration: "none" }}>
+        Home
+      </Link>
+
+      <Link to="/about" style={{ color: "white", textDecoration: "none" }}>
+        About
+      </Link>
+
+      <Link to="/services" style={{ color: "white", textDecoration: "none" }}>
+        Services
+      </Link>
+
+      <Link to="/contact" style={{ color: "white", textDecoration: "none" }}>
+        Contact
+      </Link>
     </nav>
   );
 }

@@ -7,66 +7,61 @@ const RecipeDetails = () => {
   const { id } = useParams();
   const recipeId = parseInt(id, 10);
 
-  // Fetch recipe details
+  // Zustand selectors
   const recipe = useRecipeStore((state) =>
-    state.recipes.find((r) => r.id === recipeId)
+    state.recipes.find((recipe) => recipe.id === recipeId)
   );
 
-  // Favorites
+  const recipeDetails = useRecipeStore((state) => state.recipeDetails);
+  const setRecipeDetails = useRecipeStore((state) => state.setRecipeDetails);
+
   const favorites = useRecipeStore((state) => state.favorites);
   const addFavorite = useRecipeStore((state) => state.addFavorite);
   const removeFavorite = useRecipeStore((state) => state.removeFavorite);
 
-  // Recommendations
   const recommendations = useRecipeStore((state) => state.recommendations);
-  const generateRecommendations = useRecipeStore(
-    (state) => state.generateRecommendations
-  );
+  const generateRecommendations = useRecipeStore((state) => state.generateRecommendations);
 
-  if (!recipe) return <p>recipeDetails: Recipe not found.</p>;
+  // Handle case where recipe is missing
+  if (!recipe) return <p>Recipe not found.</p>;
 
   const isFavorite = favorites.includes(recipeId);
 
+  // Save full recipe details into store when visiting the page
+  if (recipeDetails?.id !== recipeId) {
+    setRecipeDetails(recipe);
+    generateRecommendations();
+  }
+
   return (
-    <div className="recipeDetails">
-      {/* Main recipe details */}
+    <div>
       <h1>{recipe.title}</h1>
       <p>{recipe.description}</p>
 
-      {/* Favorite Button */}
       <button
         onClick={() =>
-          isFavorite ? removeFavorite(recipeId) : addFavorite(recipeId)
+          isFavorite ? removeFavorite(recipe.id) : addFavorite(recipe.id)
         }
       >
         {isFavorite ? "Remove from Favorites" : "Add to Favorites"}
       </button>
 
-      {/* Edit & Delete */}
       <EditRecipeForm recipe={recipe} />
-      <DeleteRecipeButton recipeId={recipeId} />
+      <DeleteRecipeButton recipeId={recipe.id} />
 
-      {/* Recommendations Section */}
-      <div style={{ marginTop: "20px" }}>
-        <h2>Recommended Recipes</h2>
-
-        <button onClick={generateRecommendations}>Refresh Recommendations</button>
-
-        {recommendations.length === 0 ? (
-          <p>No recommendations available yet.</p>
-        ) : (
-          <ul>
-            {recommendations
-              .filter((rec) => rec.id !== recipeId) /* avoid self */
-              .map((rec) => (
-                <li key={rec.id}>
-                  <h3>{rec.title}</h3>
-                  <p>{rec.description}</p>
-                </li>
-              ))}
-          </ul>
-        )}
-      </div>
+      {/* Recommended Recipes */}
+      <h2>Recommended Recipes</h2>
+      {recommendations.length === 0 ? (
+        <p>No recommendations yet.</p>
+      ) : (
+        <ul>
+          {recommendations.map((rec) => (
+            <li key={rec.id}>
+              <strong>{rec.title}</strong>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
